@@ -5,20 +5,20 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 
 contract Message {
-  address private immutable _trustedForwarder;
+  // address private immutable _trustedForwarder;
 
   mapping(address => string) public addressToMessage;
 
   event NewMessage(address indexed from, string message);
 
-  modifier onlyTrustedForwarder {
-    require(msg.sender == _trustedForwarder);
-    _;
-  }
+  // modifier onlyTrustedForwarder {
+  //   require(msg.sender == _trustedForwarder);
+  //   _;
+  // }
 
-  constructor(address trustedForwarder) {
-    _trustedForwarder = trustedForwarder;
-  }
+  // constructor(address trustedForwarder) {
+  //   _trustedForwarder = trustedForwarder;
+  // }
 
   function addNewMessage(string memory message) external  {
     address sender;
