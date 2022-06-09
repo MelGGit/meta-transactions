@@ -72,8 +72,8 @@
       ]
     },
     "/Users/melg/Devprojects/training/meta-transactions/contracts/Message.sol": {
-      "lastModificationDate": 1654760865549,
-      "contentHash": "4de234ed85a7f4d12369052d98882415",
+      "lastModificationDate": 1654764449443,
+      "contentHash": "c046ec8063c8af47002515106076ed50",
       "sourceName": "contracts/Message.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -104,6 +104,41 @@
       ],
       "artifacts": [
         "Message"
+      ]
+    },
+    "/Users/melg/Devprojects/training/meta-transactions/contracts/Forwarder.sol": {
+      "lastModificationDate": 1654766471348,
+      "contentHash": "e61b6ed12d7c4548d884df9d51ac065d",
+      "sourceName": "contracts/Forwarder.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "Forwarder"
       ]
     }
   }
