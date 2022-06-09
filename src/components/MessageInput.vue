@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import { ref } from 'vue'
 import { Message as messageAddress } from '../deploy.json'
 import messageAbi from '../abi/Message.json'
-import { text } from 'stream/consumers';
 
 const isSending = ref(false)
 const message = ref('')
