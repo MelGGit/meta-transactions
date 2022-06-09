@@ -6,7 +6,7 @@ async function main() {
     const message = await Message.deploy()
     await message.deployed()
 
-    writeFileSync('deploy.json', JSON.stringify({
+    writeFileSync('./src/deploy.json', JSON.stringify({
         Message: message.address
     }))
 

@@ -72,8 +72,8 @@
       ]
     },
     "/Users/melg/Devprojects/training/meta-transactions/contracts/Message.sol": {
-      "lastModificationDate": 1654689999264,
-      "contentHash": "1c4348e206a10d429bf4cdbd733d1ecb",
+      "lastModificationDate": 1654760865549,
+      "contentHash": "4de234ed85a7f4d12369052d98882415",
       "sourceName": "contracts/Message.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -98,9 +98,7 @@
           }
         }
       },
-      "imports": [
-        "hardhat/console.sol"
-      ],
+      "imports": [],
       "versionPragmas": [
         "^0.8.9"
       ],

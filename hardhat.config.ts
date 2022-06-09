@@ -7,13 +7,13 @@ import "@nomiclabs/hardhat-waffle";
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   abiExporter: {
-    path: './abi',
+    path: './src/abi',
     runOnCompile: true,
     clear: true,
     flat: true,
   },
   solidity: {
-    compilers : [{ version: "0.8.9", settings: {}}]
+    version: "0.8.9"
   },
   networks: {
     hardhat: {}

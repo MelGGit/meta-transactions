@@ -2,8 +2,6 @@
 
 pragma solidity ^0.8.9;
 
-import "hardhat/console.sol";
-
 contract Message {
   // address private immutable _trustedForwarder;
 
@@ -20,12 +18,12 @@ contract Message {
   //   _trustedForwarder = trustedForwarder;
   // }
 
-  function addNewMessage(string memory message) external  {
-    address sender;
-    assembly {
-                sender := shr(96, calldataload(sub(calldatasize(), 20)))
-            }
-    addressToMessage[sender] = message;
-    emit NewMessage(sender, message);
+  function addNewMessage(string memory message) public  {
+    // address sender;
+    // assembly {
+    //             sender := shr(96, calldataload(sub(calldatasize(), 20)))
+    //         }
+    addressToMessage[msg.sender] = message;
+    emit NewMessage(msg.sender, message);
   }
 }
