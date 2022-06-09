@@ -25,9 +25,11 @@ async function sendMetaTx(recipient: Message, provider:Web3Provider, signer: Jso
     // The delegate call function gets encoded with the argument for later usage in the forwarder contract
     const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     const to = recipient.address
-
     const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
+    const conncetedForwarder = forwarder.connect(signer)
+    const test = await conncetedForwarder.executeDelegate(request.request)
 
+    console.log(test)
 }
 
 async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwarder, input: {to: string, from: string, data: string}) {
