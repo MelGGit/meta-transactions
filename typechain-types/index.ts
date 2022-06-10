@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Forwarder } from "./Forwarder";
-export type { Message } from "./Message";
+export type { Recipient } from "./Recipient";
 export * as factories from "./factories";
 export { Forwarder__factory } from "./factories/Forwarder__factory";
-export { Message__factory } from "./factories/Message__factory";
+export { Recipient__factory } from "./factories/Recipient__factory";

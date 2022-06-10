@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { createForwarderInstance } from "./forwarder";
 import { createRecipientInstance } from "./recipient";
 import { createProvider } from "./provider";
-import { Forwarder, Message, Message__factory } from "../../typechain-types";
+import { Forwarder, Recipient, Recipient__factory } from "../../typechain-types";
 import { JsonRpcSigner, Provider, Web3Provider } from "@ethersproject/providers";
 import { ForwardRequestType, FullTypedDataType, TypedDataType } from "../types/web3types";
 
@@ -19,7 +19,7 @@ export async function sendMessage(message: string) {
     return sendMetaTx(recipient, provider, signer, message)
 }
 
-async function sendMetaTx(recipient: Message, provider:Web3Provider, signer: JsonRpcSigner, message: string ) {
+async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: JsonRpcSigner, message: string ) {
     const forwarder = createForwarderInstance(provider)
     const from = await signer.getAddress()
     // The delegate call function gets encoded with the argument for later usage in the forwarder contract

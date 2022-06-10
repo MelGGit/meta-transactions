@@ -25,7 +25,7 @@ import type {
   OnEvent,
 } from "./common";
 
-export interface MessageInterface extends utils.Interface {
+export interface RecipientInterface extends utils.Interface {
   functions: {
     "addNewMessage(string)": FunctionFragment;
     "addressToMessage(address)": FunctionFragment;
@@ -54,29 +54,30 @@ export interface MessageInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "NewMessage(address,string)": EventFragment;
+    "MessagePersisted(address,string)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "NewMessage"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MessagePersisted"): EventFragment;
 }
 
-export interface NewMessageEventObject {
+export interface MessagePersistedEventObject {
   from: string;
   message: string;
 }
-export type NewMessageEvent = TypedEvent<
+export type MessagePersistedEvent = TypedEvent<
   [string, string],
-  NewMessageEventObject
+  MessagePersistedEventObject
 >;
 
-export type NewMessageEventFilter = TypedEventFilter<NewMessageEvent>;
+export type MessagePersistedEventFilter =
+  TypedEventFilter<MessagePersistedEvent>;
 
-export interface Message extends BaseContract {
+export interface Recipient extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MessageInterface;
+  interface: RecipientInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -123,11 +124,14 @@ export interface Message extends BaseContract {
   };
 
   filters: {
-    "NewMessage(address,string)"(
+    "MessagePersisted(address,string)"(
       from?: string | null,
       message?: null
-    ): NewMessageEventFilter;
-    NewMessage(from?: string | null, message?: null): NewMessageEventFilter;
+    ): MessagePersistedEventFilter;
+    MessagePersisted(
+      from?: string | null,
+      message?: null
+    ): MessagePersistedEventFilter;
   };
 
   estimateGas: {

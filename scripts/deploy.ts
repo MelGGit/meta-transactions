@@ -3,21 +3,21 @@ import { writeFileSync } from 'fs'
 
 async function main() {
 
-  // Deploy forwarder first to get the address for Message Contract constructor
+  // Deploy forwarder first to get the address for Recipient Contract constructor
     const Forwarder = await hre.ethers.getContractFactory('Forwarder')
     const forwarder = await Forwarder.deploy()
     await forwarder.deployed()
 
-    const Message = await hre.ethers.getContractFactory("Message")
-    const message = await Message.deploy(forwarder.address)
-    await message.deployed()
+    const Recipient = await hre.ethers.getContractFactory("Recipient")
+    const recipient = await Recipient.deploy(forwarder.address)
+    await recipient.deployed()
 
     writeFileSync('./src/deploy.json', JSON.stringify({
-        Message: message.address,
+        Recipient: recipient.address,
         Forwarder: forwarder.address
     }))
 
-    console.log(`Message: ${message.address}`, `Forwarder: ${forwarder.address}`)
+    console.log(`Recipient: ${recipient.address}`, `Forwarder: ${forwarder.address}`)
 }
 
 main()

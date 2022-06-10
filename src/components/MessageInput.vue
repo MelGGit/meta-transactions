@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Message } from '../../typechain-types/Message'
+import { Recipient } from '../../typechain-types/Recipient'
 import { ethers } from 'ethers';
 import { ref } from 'vue'
-import { Message as messageAddress } from '../deploy.json'
-import messageAbi from '../abi/Message.json'
+import { Recipient as recipientAddress } from '../deploy.json'
+import recipientAbi from '../abi/Recipient.json'
 import { sendMessage } from '../web3/sendMetaTx';
 
 const isSending = ref(false)

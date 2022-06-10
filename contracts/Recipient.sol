@@ -2,14 +2,12 @@
 
 pragma solidity ^0.8.9;
 
-// Recipient
-contract Message {
+contract Recipient {
   address private immutable _trustedForwarder;
 
   mapping(address => string) public addressToMessage;
 
-  // MessagePersisted
-  event NewMessage(address indexed from, string message);
+  event MessagePersisted(address indexed from, string message);
 
   modifier onlyTrustedForwarder {
     require(msg.sender == _trustedForwarder);
@@ -26,6 +24,6 @@ contract Message {
                 sender := shr(96, calldataload(sub(calldatasize(), 20)))
             }
     addressToMessage[sender] = message;
-    emit NewMessage(sender, message);
+    emit MessagePersisted(sender, message);
   }
 }

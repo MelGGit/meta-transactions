@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Forwarder__factory } from "./Forwarder__factory";
-export { Message__factory } from "./Message__factory";
+export { Recipient__factory } from "./Recipient__factory";

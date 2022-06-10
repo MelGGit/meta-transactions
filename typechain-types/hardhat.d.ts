@@ -17,9 +17,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Forwarder__factory>;
     getContractFactory(
-      name: "Message",
+      name: "Recipient",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Message__factory>;
+    ): Promise<Contracts.Recipient__factory>;
+    getContractFactory(
+      name: "Recipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Recipient__factory>;
 
     getContractAt(
       name: "Forwarder",
@@ -27,10 +31,15 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Forwarder>;
     getContractAt(
-      name: "Message",
+      name: "Recipient",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Message>;
+    ): Promise<Contracts.Recipient>;
+    getContractAt(
+      name: "Recipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Recipient>;
 
     // default types
     getContractFactory(
