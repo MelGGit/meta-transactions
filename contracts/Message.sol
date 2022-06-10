@@ -2,11 +2,13 @@
 
 pragma solidity ^0.8.9;
 
+// Recipient
 contract Message {
   address private immutable _trustedForwarder;
 
   mapping(address => string) public addressToMessage;
 
+  // MessagePersisted
   event NewMessage(address indexed from, string message);
 
   modifier onlyTrustedForwarder {
