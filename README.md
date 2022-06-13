@@ -53,6 +53,12 @@ $  npx hardhat run --network localhost scripts/deploy.ts
 ```
 Now the smart contract has been deployed.
 
+### Run the Relayer
+Open another terminal window to run the server(relayer)
+```bash
+$  node server.js
+```
+
 ### Run the app
 
 Open another terminal window and type:
