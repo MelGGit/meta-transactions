@@ -16,5 +16,5 @@
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "./scripts", "./test"],
   "references": [{ "path": "./tsconfig.node.json" }],
-  "files": ["./hardhat.config.ts"]
+  "files": ["./hardhat.config.ts"],
 }

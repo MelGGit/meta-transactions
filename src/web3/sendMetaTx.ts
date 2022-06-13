@@ -16,7 +16,7 @@ export async function sendMessage(message: string) {
     const signer = userProvider.getSigner()
     const recipient = createRecipientInstance(userProvider)
 
-    return sendMetaTx(recipient, provider, signer, message)
+    return await sendMetaTx(recipient, provider, signer, message)
 }
 
 async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: JsonRpcSigner, message: string ) {
@@ -26,23 +26,28 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
     const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     const to = recipient.address
     const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
-    const conncetedForwarder = forwarder.connect(signer)
-    const test = await conncetedForwarder.executeDelegate(request.request)
+    const test = await fetch('http://localhost:3000/relayTransaction',{ 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(request.request)
+    })
+    // const test = await conncetedForwarder.executeDelegate(request.request)
 
-    console.log(test)
+    return test
 }
 
 async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwarder, input: {to: string, from: string, data: string}) {
     const request = await buildRequest(forwarder, input)
     const toSign = await buildTypedData(forwarder, request)
-    console.log('toSign', toSign)
     const signature = await signTypedData(signer, input.from, toSign)
     return { signature, request }
 }
 
 async function buildRequest(forwarder: Forwarder, input: {to:string, from: string, data: string}): Promise<ForwardRequestType> {
     const nonce = await forwarder.getNonce(input.from).then(nonce => nonce.toString())
-    console.log('nonce', nonce)
     return {value: 0, gas: 1e6, nonce, ...input }
 }
 

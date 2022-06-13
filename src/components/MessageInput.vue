@@ -13,7 +13,7 @@ const sendTransaction = async() => {
     isSending.value = true
     try {
         const test = await sendMessage(message.value)
-        console.log(test)
+        console.log('test')
         isSending.value = false
     } catch (error) {
         console.log(error)
