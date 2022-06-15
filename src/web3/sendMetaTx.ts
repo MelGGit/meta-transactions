@@ -26,7 +26,7 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
     const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     const to = recipient.address
     const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
-    const test = await fetch('http://localhost:3000/relayTransaction',{ 
+    const response = await fetch('http://localhost:3000/relayTransaction',{ 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,9 +34,8 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
       },
       body: JSON.stringify(request)
     })
-    // const test = await conncetedForwarder.executeDelegate(request.request)
-
-    return test
+    const responseData = await response.json()
+    return responseData
 }
 
 async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwarder, input: {to: string, from: string, data: string}) {
@@ -58,6 +57,7 @@ async function buildTypedData(forwarder: Forwarder, request: ForwardRequestType)
 }
 
 function getMetaTxTypeData(chainId: number, forwarderAddress: string): TypedDataType {
+  // setup to use the signedTypedData function from ethereum
     const EIP712Domain = [
         { name: 'name', type: 'string' },
         { name: 'version', type: 'string' },
@@ -88,6 +88,6 @@ function getMetaTxTypeData(chainId: number, forwarderAddress: string): TypedData
       }
 }
 
-async function signTypedData(signer:JsonRpcSigner, from: string, data: FullTypedDataType) {
+async function signTypedData(signer:JsonRpcSigner, from: string, data: FullTypedDataType): Promise<string> {
     return await signer.provider.send('eth_signTypedData_v4', [from, JSON.stringify(data)])
 }

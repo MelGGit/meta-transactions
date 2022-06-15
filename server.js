@@ -17,6 +17,7 @@ app.use(function(req, res, next) {
 
 app.post('/relayTransaction', async (req, res) => {
 
+    // setup to verify incoming signature and request
     const types = {
         ForwardRequest: [
             { name: 'from', type: 'address' },
@@ -37,26 +38,24 @@ app.post('/relayTransaction', async (req, res) => {
 
     const { request, signature } = req.body
     const verifiedAddress = ethers.utils.verifyTypedData(domain, types, request, signature)
+
+    // Verify, that the message and the transaction are from the original signer else return error
     if(request.from !== verifiedAddress) {
         return res.status(400).send({
-            message: 'The Transaktion could not get verified.'
+            message: 'The Transaction could not get verified.'
         })
     }
+    // create Wallet from private key and connect to Hardhat local network
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY)
     const provider = ethers.getDefaultProvider('http://localhost:8545')
     const connectedWallet = wallet.connect(provider)
+
+    // send transaction to forwarder contract
     const forwarderContract = new ethers.Contract(Forwarder, ForwarderAbi, connectedWallet)
     const contractTx = await forwarderContract.executeDelegate(request)
-    let transactionReceipt = null
-    const sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
-    while(transactionReceipt == null) {
-        transactionReceipt = await provider.getTransactionReceipt(contractTx.hash)
-        await sleep(1000)
-    }
-    console.log('final', transactionReceipt)
-    return res.status(204).send(transactionReceipt)
+    const transactionReceipt = await contractTx.wait()
+
+    return res.json(transactionReceipt)
 })
 
 app.listen(3000, () => console.log('listening on port 3000!'))

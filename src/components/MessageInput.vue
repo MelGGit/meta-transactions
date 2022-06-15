@@ -12,8 +12,8 @@ const message = ref('')
 const sendTransaction = async() => {
     isSending.value = true
     try {
-        const test = await sendMessage(message.value)
-        console.log('test')
+        const response = await sendMessage(message.value)
+        console.log(response)
         isSending.value = false
     } catch (error) {
         console.log(error)
@@ -21,7 +21,7 @@ const sendTransaction = async() => {
     }
 }
 
-</script>
+</script>   
 
 <template>
  <div>
