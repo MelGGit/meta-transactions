@@ -7,7 +7,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "hardhat": "npx hardhat node",
-    "deploy": "npx hardhat run --network localhost scripts/deploy.ts && node server.js"
+    "deploy": "npx hardhat run --network localhost scripts/deploy.ts"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.6.3",

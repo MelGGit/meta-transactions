@@ -32,7 +32,7 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
         'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(request.request)
+      body: JSON.stringify(request)
     })
     // const test = await conncetedForwarder.executeDelegate(request.request)
 
