@@ -51,25 +51,31 @@ export declare namespace Forwarder {
 
 export interface ForwarderInterface extends utils.Interface {
   functions: {
-    "executeDelegate((address,address,uint256,uint256,uint256,bytes))": FunctionFragment;
+    "executeDelegate((address,address,uint256,uint256,uint256,bytes),bytes)": FunctionFragment;
     "getNonce(address)": FunctionFragment;
+    "verify((address,address,uint256,uint256,uint256,bytes),bytes)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "executeDelegate" | "getNonce"
+    nameOrSignatureOrTopic: "executeDelegate" | "getNonce" | "verify"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "executeDelegate",
-    values: [Forwarder.ForwardRequestStruct]
+    values: [Forwarder.ForwardRequestStruct, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "getNonce", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "verify",
+    values: [Forwarder.ForwardRequestStruct, BytesLike]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "executeDelegate",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
 
   events: {};
 }
@@ -103,26 +109,47 @@ export interface Forwarder extends BaseContract {
   functions: {
     executeDelegate(
       request: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     getNonce(from: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    verify(
+      req: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
   };
 
   executeDelegate(
     request: Forwarder.ForwardRequestStruct,
+    signature: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   getNonce(from: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  verify(
+    req: Forwarder.ForwardRequestStruct,
+    signature: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   callStatic: {
     executeDelegate(
       request: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean, string]>;
 
     getNonce(from: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    verify(
+      req: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
   };
 
   filters: {};
@@ -130,20 +157,34 @@ export interface Forwarder extends BaseContract {
   estimateGas: {
     executeDelegate(
       request: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getNonce(from: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    verify(
+      req: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     executeDelegate(
       request: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getNonce(
       from: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    verify(
+      req: Forwarder.ForwardRequestStruct,
+      signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

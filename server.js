@@ -50,9 +50,10 @@ app.post('/relayTransaction', async (req, res) => {
     const provider = ethers.getDefaultProvider('http://localhost:8545')
     const connectedWallet = wallet.connect(provider)
 
+    const gasLimit = (parseInt(request.gas) + 50000).toString()
     // send transaction to forwarder contract
     const forwarderContract = new ethers.Contract(Forwarder, ForwarderAbi, connectedWallet)
-    const contractTx = await forwarderContract.executeDelegate(request)
+    const contractTx = await forwarderContract.executeDelegate(request, signature, { gasLimit })
     const transactionReceipt = await contractTx.wait()
 
     return res.json(transactionReceipt)
