@@ -6,6 +6,7 @@ specifiers:
   '@ethersproject/providers': ^5.6.8
   '@nomiclabs/hardhat-ethers': ^2.0.6
   '@nomiclabs/hardhat-waffle': ^2.0.3
+  '@openzeppelin/contracts': ^4.6.0
   '@typechain/ethers-v5': ^10.0.0
   '@typechain/hardhat': ^6.0.0
   '@types/chai': ^4.3.1
@@ -13,7 +14,6 @@ specifiers:
   '@types/node': ^17.0.41
   '@vitejs/plugin-vue': ^2.3.3
   autoprefixer: ^10.4.7
-  body-parser: ^1.20.0
   chai: ^4.3.6
   dotenv: ^16.0.1
   ethereum-waffle: ^3.4.4
@@ -38,9 +38,9 @@ dependencies:
   '@ethersproject/providers': 5.6.8
   '@nomiclabs/hardhat-ethers': 2.0.6_ethers@5.6.8+hardhat@2.9.7
   '@nomiclabs/hardhat-waffle': 2.0.3_fd6sv4jqbx3xusj27gobjpw4xu
+  '@openzeppelin/contracts': 4.6.0
   '@typechain/hardhat': 6.0.0_mkhsy5nvod365boywluagiegbu
   '@types/chai': 4.3.1
-  body-parser: 1.20.0
   chai: 4.3.6
   dotenv: 16.0.1
   ethereum-waffle: 3.4.4_typescript@4.7.3
@@ -615,6 +615,10 @@ packages:
       ethereum-waffle: 3.4.4_typescript@4.7.3
       ethers: 5.6.8
       hardhat: 2.9.7_chai@4.3.6
+    dev: false
+
+  /@openzeppelin/contracts/4.6.0:
+    resolution: {integrity: sha512-8vi4d50NNya/bQqCmaVzvHNmwHvS0OBKb7HNtuNwEE3scXWrP31fKQoGxNMT+KbzmrNZzatE3QK5p2gFONI/hg==}
     dev: false
 
   /@resolver-engine/core/0.3.3:
