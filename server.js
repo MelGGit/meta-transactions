@@ -2,12 +2,10 @@ const express = require('express')
 const ForwarderAbi = require('./src/abi/Forwarder.json')
 const { Forwarder } = require('./src/deploy.json')
 const ethers = require('ethers')
-const { waitForDebugger } = require('inspector')
 require('dotenv').config()
 
 
 const app = express()
-// console.log(process.env.PRIVATE_KEY)
 app.use(express.json());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
