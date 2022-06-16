@@ -38,7 +38,6 @@ app.post('/relayTransaction', async (req, res) => {
 
     const { request, signature } = req.body
     const verifiedAddress = ethers.utils.verifyTypedData(domain, types, request, signature)
-
     // Verify, that the message and the transaction are from the original signer else return error
     if(request.from !== verifiedAddress) {
         return res.status(400).send({
