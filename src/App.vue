@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import MessageInput from './components/MessageInput.vue';
 import MessageList from './components/MessageList.vue';
+import Header from './components/Header.vue';
 </script>
 
 <template>
- <div class="flex flex-col gap-12 justify-center items-center">
+ <div class="flex flex-col gap-12 justify-center items-center pt-10">
+   <Header />
    <MessageInput />
    <MessageList />
  </div>
@@ -16,6 +18,12 @@ import MessageList from './components/MessageList.vue';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+   background: linear-gradient(
+    to bottom,
+    #1d2230 0%,
+    #1d2230 38%,
+    white 38%,
+    white 100%
+  );
 }
 </style>
