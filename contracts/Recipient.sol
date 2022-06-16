@@ -10,7 +10,7 @@ contract Recipient {
   event MessagePersisted(address indexed from, string message);
 
   modifier onlyTrustedForwarder {
-    require(msg.sender == _trustedForwarder);
+    require(msg.sender == _trustedForwarder, "only the trusted forwarder can call this function");
     _;
   }
 

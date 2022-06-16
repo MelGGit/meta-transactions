@@ -38,7 +38,7 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
     return responseData
 }
 
-async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwarder, input: {to: string, from: string, data: string}) {
+export async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwarder, input: {to: string, from: string, data: string}) {
     const request = await buildRequest(forwarder, input)
     const toSign = await buildTypedData(forwarder, request)
     const signature = await signTypedData(signer, input.from, toSign)
