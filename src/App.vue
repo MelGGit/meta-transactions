@@ -21,8 +21,8 @@ import Header from './components/Header.vue';
    background: linear-gradient(
     to bottom,
     #1d2230 0%,
-    #1d2230 38%,
-    white 38%,
+    #1d2230 50%,
+    white 50%,
     white 100%
   );
 }

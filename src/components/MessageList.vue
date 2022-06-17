@@ -32,7 +32,7 @@ onMounted( async() => {
 </script>
 
 <template>
-    <div class="rounded-xl shadow-lg p-4 flex w-1/2 flex-col gap-4">
+    <div class="rounded-xl shadow-lg p-4 flex w-1/2 flex-col gap-4 bg-white">
         <div class="flex font-bold text-lg justify-evenly w-full items-center">
             <span class="w-full text-center">Address</span>
             <span class="w-full text-center">Message</span>

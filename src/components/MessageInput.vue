@@ -20,7 +20,7 @@ const sendTransaction = async() => {
 
 <template>
  <div>
-     <form @submit.prevent="sendTransaction" class="flex gap-8 rounded-xl shadow-lg p-4">
+     <form @submit.prevent="sendTransaction" class="flex gap-8 rounded-xl shadow-lg p-4 bg-white">
         <input type="text" v-model="message" class="border-gray-400 border rounded-xl px-4" />
         <button class="bg-green-600 rounded-xl w-36 px-4 py-2 hover:bg-green-700" type="submit" :disabled="isSending">{{isSending? 'Sending...' : 'Send Message'}}</button>
      </form>
