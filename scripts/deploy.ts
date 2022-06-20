@@ -2,7 +2,9 @@ import hre  from 'hardhat'
 import { writeFileSync } from 'fs'
 
 async function main() {
-
+    const [deployer] = await hre.ethers.getSigners();
+    console.log("Deploying contracts with the account:", deployer.address);
+    console.log("Account balance:", (await deployer.getBalance()).toString());
   // Deploy forwarder first to get the address for Recipient Contract constructor
     const Forwarder = await hre.ethers.getContractFactory('Forwarder')
     const forwarder = await Forwarder.deploy()

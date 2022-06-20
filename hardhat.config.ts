@@ -3,6 +3,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
+require('dotenv').config()
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -16,7 +17,11 @@ const config: HardhatUserConfig = {
     version: "0.8.9"
   },
   networks: {
-    hardhat: {}
+    hardhat: {},
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${process.env.VITE_INFURA_API_KEY}`,
+      accounts: [`${process.env.DEPLOY_PRIVATE_KEY}`]
+    }
   }
 }
 
