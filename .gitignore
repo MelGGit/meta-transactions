@@ -13,7 +13,6 @@ dist
 dist-ssr
 *.local
 artifacts
-typechain-types
 cache
 
 # Editor directories and files
