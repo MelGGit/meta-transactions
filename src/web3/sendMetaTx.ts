@@ -46,7 +46,7 @@ export async function signMetaTxRequest(signer: JsonRpcSigner, forwarder: Forwar
 }
 
 async function buildRequest(forwarder: Forwarder, input: {to:string, from: string, data: string}): Promise<ForwardRequestType> {
-    const nonce = await forwarder.getNonce(input.from).then(nonce => nonce.toString())
+    const nonce = await forwarder.getNonce(input.from).then((nonce) => nonce.toString())
     return {value: 0, gas: 1e6, nonce, ...input }
 }
 

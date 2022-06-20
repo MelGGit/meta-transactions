@@ -17,8 +17,8 @@ onMounted( async() => {
         const provider = new ethers.providers.Web3Provider(ethereum)
         const recipientContract = new ethers.Contract(recipientAddress, recipientAbi, provider) as Recipient
         const pastMessages = await recipientContract.queryFilter(recipientContract.filters.MessagePersisted())
-        pastMessages.forEach(message => messagesArray.value.unshift(message))
-        recipientContract.on('MessagePersisted', (...args) => {
+        pastMessages.forEach((message) => messagesArray.value.unshift(message))
+        recipientContract.on('MessagePersisted', (...args:any[]) => {
             const newEvent = args[args.length - 1] as MessagePersistedEvent
 
             if(messagesArray.value.filter(value => value.transactionHash === newEvent.transactionHash).length < 1) {
