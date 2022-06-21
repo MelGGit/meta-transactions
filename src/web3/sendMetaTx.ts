@@ -3,30 +3,30 @@ import { createForwarderInstance } from "./forwarder";
 import { createRecipientInstance } from "./recipient";
 import { createProvider } from "./provider";
 import { Forwarder, Recipient, Recipient__factory } from "../../typechain-types";
-import { JsonRpcSigner, Provider, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, JsonRpcSigner, Provider, Web3Provider } from "@ethersproject/providers";
 import { ForwardRequestType, FullTypedDataType, TypedDataType } from "../types/web3types";
 
 export async function sendMessage(message: string) {
     if(!message || message.length < 1) throw new Error('Name cannot be empty')
     if(!window.ethereum) throw new Error('No wallet installed')
-
     const { ethereum } = window
+    await ethereum.request({ method: 'eth_requestAccounts' })
     const userProvider = new ethers.providers.Web3Provider(window.ethereum);
     const provider = createProvider()
     const signer = userProvider.getSigner()
-    const recipient = createRecipientInstance(userProvider)
+    const recipient = createRecipientInstance(provider)
 
     return await sendMetaTx(recipient, provider, signer, message)
 }
 
-async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: JsonRpcSigner, message: string ) {
+async function sendMetaTx(recipient: Recipient, provider:JsonRpcProvider, signer: JsonRpcSigner, message: string ) {
     const forwarder = createForwarderInstance(provider)
     const from = await signer.getAddress()
     // The delegate call function gets encoded with the argument for later usage in the forwarder contract
     const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     const to = recipient.address
     const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
-    const response = await fetch('http://localhost:3000/relayTransaction',{ 
+    const response = await fetch('http://localhost:8888/.netlify/functions/sendMetaTransaction',{ 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

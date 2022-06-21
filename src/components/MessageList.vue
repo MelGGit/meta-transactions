@@ -4,6 +4,7 @@ import { Recipient, MessagePersistedEvent } from '../../typechain-types/Recipien
 import { ethers } from 'ethers';
 import { Recipient as recipientAddress } from '../deploy.json'
 import recipientAbi from '../abi/Recipient.json'
+import { createProvider } from '../web3/provider';
 
 const messagesArray = ref<MessagePersistedEvent[]>([])
 
@@ -13,8 +14,7 @@ const createShortAddress = (address: string): string => {
 
 onMounted( async() => {
     try {
-        const { ethereum } = window
-        const provider = new ethers.providers.Web3Provider(ethereum)
+        const provider = createProvider()
         const recipientContract = new ethers.Contract(recipientAddress, recipientAbi, provider) as Recipient
         const pastMessages = await recipientContract.queryFilter(recipientContract.filters.MessagePersisted())
         pastMessages.forEach((message) => messagesArray.value.unshift(message))
