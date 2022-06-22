@@ -11,6 +11,7 @@ export async function sendMessage(message: string) {
     if(!window.ethereum) throw new Error('No wallet installed')
 
     const { ethereum } = window
+    await ethereum.request({ method: 'eth_requestAccounts' })
     const userProvider = new ethers.providers.Web3Provider(window.ethereum);
     const provider = createProvider()
     const signer = userProvider.getSigner()
@@ -26,7 +27,7 @@ async function sendMetaTx(recipient: Recipient, provider:Web3Provider, signer: J
     const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     const to = recipient.address
     const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
-    const response = await fetch('http://localhost:3000/relayTransaction',{ 
+    const response = await fetch('http://localhost:4000/relayTransaction',{ 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
