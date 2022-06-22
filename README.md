@@ -1,6 +1,6 @@
 # Sample Project for Meta-Transactions
 
-If you want to look at the released application on Netlify and ROpsten, use the branch netlify.
+If you want to look at the released application on Netlify and Ropsten, use the branch netlify.
 If you want to test a local variant of this application, use the main branch and follow the instructions below.
 
 ## Steps to install
