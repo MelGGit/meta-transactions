@@ -1,5 +1,8 @@
 # Sample Project for Meta-Transactions
 
+If you want to look at the released application on Netlify and ROpsten, use the branch netlify.
+If you want to test a local variant of this application, use the main branch and follow the instructions below.
+
 ## Steps to install
 
 ### Clone to local
@@ -20,14 +23,14 @@ $ npx hardhat node
 - !important! your local network needs to run the whole time. Else the App wont function.
 
 ### Add an account to Metamask
-
-To interact with your local Blockchain you need an account from the list in your terminal.
+Only if you dont have an account already.
+To interact with your local Blockchain you need an account.
 
 #### Steps
 - go to Metamask in the browser
 - click the round circle in the top right
 - click on import account
-- copy one of the private keys in from the terminal and paste it into Metamask
+- copy one of the private keys (except Account#1 or Account#19 those are used inside the app) from the terminal and paste it into Metamask
 - hit import
 
 ### Add Hardhat to your networks
@@ -44,6 +47,7 @@ The second step to interact with your local development blockchain is to add it 
 - ChainId: 31337
 
 Now Metamask can connect to your local Network.
+Make sure, that you are on the Hardhat local network when using the app.
 
 ### Deploy the smart contract to your local network
 Open another terminal window and switch to the backend folder again.
