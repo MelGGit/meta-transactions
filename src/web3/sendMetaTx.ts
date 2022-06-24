@@ -12,27 +12,44 @@ export async function sendMessage(message: string) {
     const { ethereum } = window
     await ethereum.request({ method: 'eth_requestAccounts' })
     const userProvider = new ethers.providers.Web3Provider(window.ethereum);
-    const provider = createProvider()
     const signer = userProvider.getSigner()
-    const recipient = createRecipientInstance(provider)
 
-    return await sendMetaTx(recipient, provider, signer, message)
+    return await sendMetaTx(signer, message)
 }
 
-async function sendMetaTx(recipient: Recipient, provider:JsonRpcProvider, signer: JsonRpcSigner, message: string ) {
-    const forwarder = createForwarderInstance(provider)
-    const from = await signer.getAddress()
+async function sendMetaTx(signer: JsonRpcSigner, message: string ) {
+  // const provider = createProvider()
+  // const recipient = createRecipientInstance(provider)
+  // const forwarder = createForwarderInstance(provider)
+  const from = await signer.getAddress()
+  // const nonce = await forwarder.getNonce(input.from).then((nonce) => nonce.toString())
+  // from + message to serverless function
     // The delegate call function gets encoded with the argument for later usage in the forwarder contract
-    const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
-    const to = recipient.address
-    const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
+    // const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
+    // const to = recipient.address
+
+    const toSignRequest = await fetch('http://localhost:8888/.netlify/functions/createSignTypedData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({from, message})
+    })
+
+    const { toSign, request } = await toSignRequest.json()
+
+    // const request = await signMetaTxRequest(signer, forwarder, { to, from, data})
+
+    const signature = await signTypedData(signer, from, toSign)
+
     const response = await fetch('http://localhost:8888/.netlify/functions/sendMetaTransaction',{ 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(request)
+      body: JSON.stringify({request, signature})
     })
     const responseData = await response.json()
     return responseData
