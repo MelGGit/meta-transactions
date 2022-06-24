@@ -36,9 +36,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 }
 
 async function buildRequest(forwarder: Forwarder, input: {to:string, from: string, data: string}): Promise<ForwardRequestType> {
-    console.log(input.from)
     const nonce = await forwarder.getNonce(input.from).then((nonce) => nonce.toString())
-    console.log(nonce)
     return {value: 0, gas: 1e6, nonce, ...input }
 }
 

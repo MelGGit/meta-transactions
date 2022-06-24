@@ -6,32 +6,18 @@ import { Recipient as recipientAddress } from '../deploy.json'
 import recipientAbi from '../abi/Recipient.json'
 import { createProvider } from '../web3/provider';
 
-const messagesArray = ref<MessagePersistedEvent[]>([])
+defineProps<{
+    messagesArray:MessagePersistedEvent[]
+}>()
 
 const createShortAddress = (address: string): string => {
     return address.substring(0, 6) + '...' + address.substring(address.length - 4)
 }
 
-onMounted( async() => {
-    try {
-        const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
-        const allMessagesRequest = await fetch(`${apiUrl}.netlify/functions/getAllMessages`, {
-         method: 'GET',
-         headers: {
-         'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        })
-        const allMessages = await allMessagesRequest.json() as MessagePersistedEvent[]
-        messagesArray.value = allMessages
-    } catch (error) {
-        console.log(error)
-    }
-})
 </script>
 
 <template>
-    <div class="rounded-xl shadow-2xl p-4 flex w-1/2 flex-col gap-4 bg-white">
+    <div class="rounded-xl shadow-2xl p-4 flex w-1/2 flex-col gap-4 bg-white h-[38rem] overflow-y-scroll">
         <div class="flex font-bold text-lg justify-evenly w-full items-center">
             <span class="w-full text-center">Address</span>
             <span class="w-full text-center">Message</span>
