@@ -19,7 +19,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     const { from, message } = bodyData
 
     const provider = ethers.getDefaultProvider(`https://ropsten.infura.io/v3/${INFURA_API_KEY}`)
-    console.log(provider)
     const recipient = new ethers.Contract(recipientAddress, RecipientAbi, provider) as Recipient
     const forwarder = new ethers.Contract(forwarderAddress, ForwarderAbi, provider) as Forwarder
 
