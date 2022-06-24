@@ -4,8 +4,41 @@ import MessageList from './components/MessageList.vue';
 import Header from './components/Header.vue';
 import { MessagePersistedEvent } from '../typechain-types/Recipient';
 import { onMounted, ref } from 'vue';
+import { sendMessage } from './web3/sendMetaTx';
 
 const messagesArray = ref<MessagePersistedEvent[]>([])
+const isSending = ref(false)
+const message = ref('')
+const txHash = ref('')
+
+const sendTransaction = async() => {
+    const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+    isSending.value = true
+    try {
+        const { contractTx } = await sendMessage(message.value)
+        txHash.value = contractTx.hash
+        let transaction
+        const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay))
+        while(!transaction || transaction.confirmations === 0) {
+            const transactionRequest = await fetch(`${apiUrl}.netlify/functions/getTransactionReceipt`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({txHash: contractTx.hash})
+            })
+            transaction = await transactionRequest.json()
+            console.log(transaction.confirmations)
+            await sleep(25000)
+        }
+        message.value = ''
+        isSending.value = false
+        getAllMessages()
+    } catch (error) {
+        console.log(error)
+        isSending.value = false
+    }
+}
 
 const getAllMessages = async() => {
     try {
@@ -37,8 +70,8 @@ onMounted( async() => {
 <template>
  <div class="flex flex-col gap-12 justify-center items-center pt-10">
    <Header />
-   <MessageInput />
-   <MessageList :messagesArray="messagesArray" />
+   <MessageInput v-model:message="message" :is-sending="isSending" :tx-hash="txHash" @send-transaction="sendTransaction()" />
+   <MessageList :messages-array="messagesArray" />
  </div>
 </template>
 
