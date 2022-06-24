@@ -24,7 +24,8 @@ The different components have been chosen with specific needs in mind:
     rect rgb(208, 240, 192)
       Frontend->>Metamask: Request Accounts
       Metamask->>User: Ask to select wallet <br /> and connect
-      User->>Frontend: selects wallet and connects
+      User->>Metamask: selects wallet
+      Frontend->>Metamask: Connect to selected wallet
     end
     rect rgb(208, 240, 192)
       Frontend->>Metamask: Request to INTERACT
