@@ -14,17 +14,27 @@ const createShortAddress = (address: string): string => {
 
 onMounted( async() => {
     try {
-        const provider = createProvider()
-        const recipientContract = new ethers.Contract(recipientAddress, recipientAbi, provider) as Recipient
-        const pastMessages = await recipientContract.queryFilter(recipientContract.filters.MessagePersisted())
-        pastMessages.forEach((message) => messagesArray.value.unshift(message))
-        recipientContract.on('MessagePersisted', (...args:any[]) => {
-            const newEvent = args[args.length - 1] as MessagePersistedEvent
-
-            if(messagesArray.value.filter(value => value.transactionHash === newEvent.transactionHash).length < 1) {
-                messagesArray.value.unshift(newEvent)
-            }
+        const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+        const allMessagesRequest = await fetch(`${apiUrl}.netlify/functions/getAllMessages`, {
+         method: 'GET',
+         headers: {
+         'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
         })
+        const allMessages = await allMessagesRequest.json()
+
+        messagesArray.value = allMessages
+        // const provider = new ethers.providers.Web3Provider(window.ethereum)
+        // const recipientContract = new ethers.Contract(recipientAddress, recipientAbi, provider) as Recipient
+        // pastMessages.forEach((message) => messagesArray.value.unshift(message))
+        // recipientContract.on('MessagePersisted', (...args:any[]) => {
+        //     const newEvent = args[args.length - 1] as MessagePersistedEvent
+
+        //     if(messagesArray.value.filter(value => value.transactionHash === newEvent.transactionHash).length < 1) {
+        //         messagesArray.value.unshift(newEvent)
+        //     }
+        // })
     } catch (error) {
         console.log(error)
     }
