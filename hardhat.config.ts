@@ -19,7 +19,7 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
     ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.VITE_INFURA_API_KEY}`,
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [`${process.env.DEPLOY_PRIVATE_KEY}`]
     }
   }
