@@ -18,6 +18,7 @@ export async function sendMessage(message: string) {
 }
 
 async function sendMetaTx(signer: JsonRpcSigner, message: string ) {
+  const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
   // const provider = createProvider()
   // const recipient = createRecipientInstance(provider)
   // const forwarder = createForwarderInstance(provider)
@@ -28,7 +29,7 @@ async function sendMetaTx(signer: JsonRpcSigner, message: string ) {
     // const data = recipient.interface.encodeFunctionData('addNewMessage', [message])
     // const to = recipient.address
 
-    const toSignRequest = await fetch('http://localhost:8888/.netlify/functions/createSignTypedData', {
+    const toSignRequest = await fetch(`${apiUrl}.netlify/functions/createSignTypedData`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ async function sendMetaTx(signer: JsonRpcSigner, message: string ) {
 
     const signature = await signTypedData(signer, from, toSign)
 
-    const response = await fetch('http://localhost:8888/.netlify/functions/sendMetaTransaction',{ 
+    const response = await fetch(`${apiUrl}.netlify/functions/sendMetaTransaction`,{ 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

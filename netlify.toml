@@ -8,6 +8,13 @@
   command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
   functions= "functions"
 
+[context.production]
+  NODE_ENV = "production"
+[context.deploy-preview]
+  NODE_ENV = "production"
+[context.branch-deploy] 
+  NODE_ENV = "production"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
