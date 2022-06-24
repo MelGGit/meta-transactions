@@ -12,7 +12,7 @@ defineProps<{
         <h2 class="font-bold text-lg">Relayer</h2>
         <div class="flex gap-1 flex-col">
             <span>Address: {{address}} </span>
-            <span>Balance: {{balanceInEth.substring(0,5)}} ETH</span>
+            <span>Balance: {{balanceInEth.substring(0,10)}} ETH</span>
         </div>
     </div>
 </template>

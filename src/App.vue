@@ -72,16 +72,22 @@ const requestChangeNetwork = async() => {
 const sendTransaction = async() => {
     const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
     const isCorrectNetwork = await checkIfIsCorrectNetwork()
-    console.log(isCorrectNetwork)
     if(!isCorrectNetwork) {
       await requestChangeNetwork()
     }
+    const secondNetworkCheck = await checkIfIsCorrectNetwork()
+    if(!secondNetworkCheck) {
+      alert('You need to use the Ropsten Network for this application');
+      return
+    }
+    txHash.value = ''
     isSending.value = true
     try {
         const { contractTx } = await sendMessage(message.value)
         txHash.value = contractTx.hash
         let transaction
         const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay))
+        await sleep(20000)
         while(!transaction || transaction.confirmations === 0) {
             const transactionRequest = await fetch(`${apiUrl}.netlify/functions/getTransactionReceipt`, {
                 method: 'POST',
@@ -97,6 +103,7 @@ const sendTransaction = async() => {
         message.value = ''
         isSending.value = false
         getAllMessages()
+        getRelayerInformation()
     } catch (error) {
         console.log(error)
         isSending.value = false
