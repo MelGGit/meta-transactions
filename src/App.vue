@@ -15,8 +15,67 @@ const txHash = ref('')
 const relayerBalanceInEth = ref('')
 const relayerAddress = ref('')
 
+const checkIfIsCorrectNetwork = async() => {
+  if(window.ethereum) {
+    const { ethereum } = window
+    const chainId = await ethereum.request({ method: 'eth_chainId' })
+    console.log(chainId)
+    return chainId === '0x3'
+  } else {
+      // if no window.ethereum then MetaMask is not installed
+      alert('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+    } 
+}
+
+const requestChangeNetwork = async() => {
+  if (window.ethereum) {
+      const { ethereum } = window
+      try {
+        // check if the chain to connect to is installed
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x3' }], // chainId must be in hexadecimal numbers
+        });
+      } catch (error: any) {
+        // This error code indicates that the chain has not been added to MetaMask
+        // if it is not, then install it into the user MetaMask
+        if (error.code === 4902) {
+          try {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x3',
+                  rpcUrls: ['https://ropsten.infura.io/v3/'],
+                  chainName: "Ropsten Test Network",
+                    nativeCurrency: {
+                      name: "ETH",
+                      symbol: "ETH", // 2-6 characters long
+                      decimals: 18,
+                    },
+                    blockExplorerUrls: ["https://ropsten.etherscan.io/"]
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error(addError);
+          }
+        }
+        console.error(error);
+      }
+    } else {
+      // if no window.ethereum then MetaMask is not installed
+      alert('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+    } 
+}
+
 const sendTransaction = async() => {
     const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+    const isCorrectNetwork = await checkIfIsCorrectNetwork()
+    console.log(isCorrectNetwork)
+    if(!isCorrectNetwork) {
+      await requestChangeNetwork()
+    }
     isSending.value = true
     try {
         const { contractTx } = await sendMessage(message.value)
@@ -33,7 +92,7 @@ const sendTransaction = async() => {
             })
             transaction = await transactionRequest.json()
             console.log(transaction.confirmations)
-            await sleep(25000)
+            await sleep(20000)
         }
         message.value = ''
         isSending.value = false
