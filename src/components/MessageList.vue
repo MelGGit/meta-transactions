@@ -17,7 +17,7 @@ const createShortAddress = (address: string): string => {
 </script>
 
 <template>
-    <div class="rounded-xl shadow-2xl p-4 flex w-1/2 flex-col gap-4 bg-white h-[38rem] overflow-y-scroll">
+    <div class="rounded-xl shadow-2xl p-4 flex w-1/2 flex-col gap-4 bg-white h-96 overflow-y-scroll">
         <div class="flex font-bold text-lg justify-evenly w-full items-center">
             <span class="w-full text-center">Address</span>
             <span class="w-full text-center">Message</span>

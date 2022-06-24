@@ -5,11 +5,15 @@ import Header from './components/Header.vue';
 import { MessagePersistedEvent } from '../typechain-types/Recipient';
 import { onMounted, ref } from 'vue';
 import { sendMessage } from './web3/sendMetaTx';
+import { ethers } from 'ethers';
+import RelayerInformation from './components/RelayerInformation.vue';
 
 const messagesArray = ref<MessagePersistedEvent[]>([])
 const isSending = ref(false)
 const message = ref('')
 const txHash = ref('')
+const relayerBalanceInEth = ref('')
+const relayerAddress = ref('')
 
 const sendTransaction = async() => {
     const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
@@ -40,6 +44,24 @@ const sendTransaction = async() => {
     }
 }
 
+const getRelayerInformation = async() => {
+    const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+    try {
+      const relayerInformationRequest = await fetch(`${apiUrl}.netlify/functions/getRelayerInformation`, {
+             method: 'GET',
+             headers: {
+             'Content-Type': 'application/json'
+                },
+            })
+      const { balance , address } = await relayerInformationRequest.json()
+      const balanceInEth = ethers.utils.formatEther(balance)
+      relayerBalanceInEth.value = balanceInEth
+      relayerAddress.value = address
+    } catch (error) {
+      console.log(error)
+    }
+}
+
 const getAllMessages = async() => {
     try {
         const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
@@ -47,7 +69,6 @@ const getAllMessages = async() => {
              method: 'GET',
              headers: {
              'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
             })
             const allMessages = await allMessagesRequest.json() as MessagePersistedEvent[]
@@ -59,7 +80,8 @@ const getAllMessages = async() => {
 
 onMounted( async() => {
     try {
-        await getAllMessages()
+        getRelayerInformation()
+        getAllMessages()
     } catch (error) {
         console.log(error)
     }
@@ -71,6 +93,7 @@ onMounted( async() => {
  <div class="flex flex-col gap-12 justify-center items-center pt-10">
    <Header />
    <MessageInput v-model:message="message" :is-sending="isSending" :tx-hash="txHash" @send-transaction="sendTransaction()" />
+   <RelayerInformation :balance-in-eth="relayerBalanceInEth" :address="relayerAddress" />
    <MessageList :messages-array="messagesArray" />
  </div>
 </template>
