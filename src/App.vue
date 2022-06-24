@@ -18,11 +18,12 @@ import Header from './components/Header.vue';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  height: 100vh;
    background: linear-gradient(
     to bottom,
     #1d2230 0%,
-    #1d2230 50%,
-    white 50%,
+    #1d2230 20%,
+    white 20%,
     white 100%
   );
 }

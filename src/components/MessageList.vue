@@ -22,19 +22,8 @@ onMounted( async() => {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         })
-        const allMessages = await allMessagesRequest.json()
-
+        const allMessages = await allMessagesRequest.json() as MessagePersistedEvent[]
         messagesArray.value = allMessages
-        // const provider = new ethers.providers.Web3Provider(window.ethereum)
-        // const recipientContract = new ethers.Contract(recipientAddress, recipientAbi, provider) as Recipient
-        // pastMessages.forEach((message) => messagesArray.value.unshift(message))
-        // recipientContract.on('MessagePersisted', (...args:any[]) => {
-        //     const newEvent = args[args.length - 1] as MessagePersistedEvent
-
-        //     if(messagesArray.value.filter(value => value.transactionHash === newEvent.transactionHash).length < 1) {
-        //         messagesArray.value.unshift(newEvent)
-        //     }
-        // })
     } catch (error) {
         console.log(error)
     }
@@ -54,10 +43,10 @@ onMounted( async() => {
         <ul class="w-full flex flex-col gap-2" v-if="messagesArray.length > 0">
             <div class="flex w-full justify-evenly items-center" v-for="userMessage in messagesArray" :key="userMessage.transactionHash">
                 <span class="w-full text-center">
-                    {{ createShortAddress(userMessage.args.from) }}
+                    {{ createShortAddress(userMessage.args[0]) }}
                 </span>
                 <div class="w-full text-center overflow-ellipsis">
-                    <span>{{ userMessage.args.message }}</span>
+                    <span>{{ userMessage.args[1] }}</span>
                 </div>
             </div>
         </ul>
