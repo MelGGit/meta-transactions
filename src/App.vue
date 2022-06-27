@@ -156,9 +156,9 @@ onMounted( async() => {
 </script>
 
 <template>
- <div class="flex flex-col gap-12 justify-center items-center pt-10">
+ <div class="flex flex-col sm:gap-12 gap-4 justify-center items-center sm:pt-10 pt-8">
    <Header />
-   <MessageInput v-model:message="message" :is-sending="isSending" :tx-hash="txHash" @send-transaction="sendTransaction()" />
+   <MessageInput v-model:message="message" :is-sending="isSending" :tx-hash="txHash" @send-transaction="sendTransaction()" class="mt-10 sm:mt-0" />
    <RelayerInformation :balance-in-eth="relayerBalanceInEth" :address="relayerAddress" />
    <MessageList :messages-array="messagesArray" />
  </div>
