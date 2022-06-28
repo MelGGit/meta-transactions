@@ -21,13 +21,13 @@ The different components have been chosen with specific needs in mind:
     end
 
     activate Metamask
-    rect rgb(208, 240, 192)
+    rect rgb(208, 24, 192)
       Frontend->>Metamask: Request Accounts
       Metamask->>User: Ask to select wallet <br /> and connect
       User->>Metamask: selects wallet
       Frontend->>Metamask: Connect to selected wallet
     end
-    rect rgb(208, 240, 192)
+    rect rgb(208, 24, 192)
       Frontend->>Metamask: Request to INTERACT
       Metamask->>User: Popup and request to sign a message <br /> (the message contains the final INTERACT step <br/> and the current nonce for the User)
       User->>Frontend: Signs message
@@ -35,7 +35,7 @@ The different components have been chosen with specific needs in mind:
     deactivate Metamask
     activate Backend
 
-    rect rgb(208, 160, 200, 0.9)
+    rect rgb(208, 160, 20, 0.9)
       Frontend->>Backend: Send signed message and sender
       Backend->>Backend: Validate that the User (original signer)<br /> has actually signed the message
       Backend->>Backend: Sign actual transaction to INTERACT <br /> (Use local wallet for Gas)
@@ -47,6 +47,7 @@ The different components have been chosen with specific needs in mind:
     Forwarder->>Forwarder: increase the nonce <br/> for the sender  
     Forwarder->>Recipient: INTERACT <br/> with the target  
     rect rgb(111, 160, 200, 0.8)
+        Recipient->>Recipient: Persist the message under the original sender
         Recipient-->>Recipient: EMIT Interaction Event  
     end
     Recipient->>Forwarder: Deliver response  
