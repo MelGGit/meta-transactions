@@ -95,5 +95,4 @@ The different components have been chosen with specific needs in mind:
                 note right of Forwarder: SC Interaction
             end
         end
-
 ```

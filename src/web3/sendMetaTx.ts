@@ -8,9 +8,9 @@ import { ForwardRequestType, FullTypedDataType, TypedDataType } from "../types/w
 
 export async function sendMessage(message: string) {
     if(!message || message.length < 1) throw new Error('Name cannot be empty')
-    if(!window.ethereum) throw new Error('No wallet installed')
-    const { ethereum } = window
-    await ethereum.request({ method: 'eth_requestAccounts' })
+    // if(!window.ethereum) throw new Error('No wallet installed')
+    // const { ethereum } = window
+    // await ethereum.request({ method: 'eth_requestAccounts' })
     const userProvider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = userProvider.getSigner()
 

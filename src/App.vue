@@ -70,7 +70,19 @@ const requestChangeNetwork = async() => {
 }
 
 const sendTransaction = async() => {
-    const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+  const apiUrl = process.env.NODE_ENV === 'production' ? 'https://astounding-daifuku-0318c0.netlify.app/': 'http://localhost:8888/'
+  if(!window.ethereum) {
+    alert('You need Metamask to use this dApp')
+      return
+  }
+    const { ethereum } = window
+  try {
+    await ethereum.request({ method: 'eth_requestAccounts' })
+  } catch (error) {
+    console.log(error)
+    alert('This dApp needs permission to interact with Metamask.')
+    return
+  }
     const isCorrectNetwork = await checkIfIsCorrectNetwork()
     if(!isCorrectNetwork) {
       await requestChangeNetwork()
