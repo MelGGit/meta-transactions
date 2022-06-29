@@ -88,6 +88,7 @@ The different components have been chosen with specific needs in mind:
         Backend->>Forward: sign transaction for SC method executeDelegate on Forwarder
         end
         rect rgb(111, 160, 200, 0.4)
+        note right of Forwarder: SC Interaction
         end
         end
 
