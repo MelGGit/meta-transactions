@@ -22,74 +22,78 @@ The different components have been chosen with specific needs in mind:
         participant Node
 
         rect rgb(111, 160, 200, 0.2)
-        note right of User: App startup
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: Relayer information
-        Frontend->>Backend: Request for information about the relayer
-        Backend->>Node: Forward Request
-        Node->>Backend: Send information
-        Backend->>Frontend: Forward information
-        Frontend->>User: Display information
-        end
+            note right of User: App startup
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: Relayer information
+                Frontend->>Backend: Request for information about the relayer
+                Backend->>Node: Forward Request
+                Node->>Backend: Send information
+                Backend->>Frontend: Forward information
+                Frontend->>User: Display information
+            end
 
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: All messages
-        Frontend->>Backend: Request for all messages
-        Backend->>Node: Forward Request
-        Node->>Backend: Send information
-        Backend->>Frontend: Forward information
-        Frontend->>User: Display all messages
-        end
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: All messages
+                Frontend->>Backend: Request for all messages
+                Backend->>Node: Forward Request
+                Node->>Backend: Send information
+                Backend->>Frontend: Forward information
+                Frontend->>User: Display all messages
+            end
         end
 
         note right of User: User sends message
 
         rect rgb(111, 160, 200, 0.2)
-        note right of User: Send message to SC
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: Metamask connection
-        Frontend->>Metamask: Ask for connection
-        Metamask->>User: Ask for permission
-        break if permission is denied
-            Frontend->>User: show failure
-        end
-        Metamask->>Frontend: Send connected address
-        end
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: Network check
-        Frontend->>Metamask: Ask for Users current network
-        Metamask->>Frontend: Send network
-        Frontend->>Frontend: Validates if network is Ropsten
-        Frontend->>Metamask: if not Ropsten ask for network change
-        Metamask->>User: Ask for permission
-        break if permission is denied
-            Frontend->>User: show failure
-        end
-        end
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: Prepare Message to sign
-        Frontend->>Backend: Request data to sign
-        Backend->>Frontend: Send data to sign
-        Frontend->>Metamask: Sign typed data
-        Metamask->>User: Ask for permission
-        break if permission is denied
-            Frontend->>User: show failure
-        end
-        end
-        rect rgb(111, 160, 200, 0.4)
-        note right of User: Send to SC
-        Frontend->>Backend: Send signature and request data
-        Backend->>Backend: Validate signature
-        break if signature is false
-            Backend->>Frontend: send failure
-            Frontend->>User: show failure
-        end
-        Backend->>Backend: Prepare signing of transaction
-        Backend->>Forward: sign transaction for SC method executeDelegate on Forwarder
-        end
-        rect rgb(111, 160, 200, 0.4)
-        note right of Forwarder: SC Interaction
-        end
+            note right of User: Send message to SC
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: Metamask connection
+                Frontend->>Metamask: Ask for connection
+                Metamask->>User: Ask for permission
+                break if permission is denied
+                    Frontend->>User: show failure
+                end
+                Metamask->>Frontend: Send connected address
+            end
+
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: Network check
+                Frontend->>Metamask: Ask for Users current network
+                Metamask->>Frontend: Send network
+                Frontend->>Frontend: Validates if network is Ropsten
+                Frontend->>Metamask: if not Ropsten ask for network change
+                Metamask->>User: Ask for permission
+                break if permission is denied
+                    Frontend->>User: show failure
+                end
+            end
+
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: Prepare Message to sign
+                Frontend->>Backend: Request data to sign
+                Backend->>Frontend: Send data to sign
+                Frontend->>Metamask: Sign typed data
+                Metamask->>User: Ask for permission
+                break if permission is denied
+                    Frontend->>User: show failure
+                end
+            end
+
+            rect rgb(111, 160, 200, 0.4)
+                note right of User: Send to SC
+                Frontend->>Backend: Send signature and request data
+                Backend->>Backend: Validate signature
+                break if signature is false
+                    Backend->>Frontend: send failure
+                    Frontend->>User: show failure
+                end
+                Backend->>Backend: Prepare signing of transaction
+                Backend->>Forward: sign transaction for SC method executeDelegate on Forwarder
+            end
+
+            rect rgb(111, 160, 200, 0.4)
+                note right of Forwarder: SC Interaction
+            end
         end
 
 ```
