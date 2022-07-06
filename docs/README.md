@@ -50,7 +50,8 @@ The different components have been chosen with specific needs in mind:
                 note right of User: Metamask connection
                 Frontend->>Metamask: Ask for connection
                 Metamask->>User: Ask for permission
-                break if permission is denied
+                rect rgb(255,0,0, 0.6)
+                    Note over User, Frontend: Break if permission is denied
                     Frontend->>User: show failure
                 end
                 Metamask->>Frontend: Send connected address
@@ -63,7 +64,8 @@ The different components have been chosen with specific needs in mind:
                 Frontend->>Frontend: Validates if network is Ropsten
                 Frontend->>Metamask: if not Ropsten ask for network change
                 Metamask->>User: Ask for permission
-                break if permission is denied
+                rect rgb(255,0,0, 0.6)
+                    Note over User, Frontend: Break if permission is denied
                     Frontend->>User: show failure
                 end
             end
@@ -74,7 +76,8 @@ The different components have been chosen with specific needs in mind:
                 Backend->>Frontend: Send data to sign
                 Frontend->>Metamask: Sign typed data
                 Metamask->>User: Ask for permission
-                break if permission is denied
+                rect rgb(255,0,0, 0.6)
+                    Note over User, Frontend: Break if permission is denied
                     Frontend->>User: show failure
                 end
             end
@@ -83,7 +86,8 @@ The different components have been chosen with specific needs in mind:
                 note right of User: Send to SC
                 Frontend->>Backend: Send signature and request data
                 Backend->>Backend: Validate signature
-                break if signature is false
+                rect rgb(255,0,0, 0.6)
+                    Note over User, Backend: Break if signature is false
                     Backend->>Frontend: send failure
                     Frontend->>User: show failure
                 end
