@@ -4,10 +4,10 @@ This is how the user interacts with the various components of this application.
 
 
 The different components have been chosen with specific needs in mind:
-* Frontend: This component dispalys the UI to the user and interacts with the backend.
-* Backend: Has three main functionalities. First it stores the api access key to communicate with the node. The second one is preparing the message the user has to sign and thirdly storing the private key to act as an EOA for signing transactions and paying the gas fees on behalf of the customer.
+* Frontend: This component displays the UI to the user and interacts with the backend.
+* Backend: Has three main functionalities. First it stores the api access key to communicate with the node. Second, it prepares the message the user has to sign and third it stores a private key to sign transactions and pay the gas fees on behalf of the customer.
 * Forwarder: Ensures that the incoming transaction gets validated before actually sent for execution. The forwarder also keeps a record of the internal nonces that external wallets are using while forwarding.
-* Recipient: This is the final smart contract whose method is originally called from the Frontend. It substitutes the forwarder sender for the actual sender (from) of the original transaction and persists the data on-chain.
+* Recipient: This is the final smart contract whose method is originally called from the Frontend. It substitutes the sender of the forwarder call for the actual sender (from) of the original transaction and persists the data on-chain.
 * Node: This component is an Infura node and runs its own copy of the chain which the dApp can query from.
 
 ```mermaid
@@ -48,7 +48,7 @@ The different components have been chosen with specific needs in mind:
             note right of User: Send message to SC
             rect rgb(111, 160, 200, 0.4)
                 note right of User: Metamask connection
-                Frontend->>Metamask: Ask for connection
+                Frontend->>Metamask: Ask to connect to wallet.
                 Metamask->>User: Ask for permission
                 rect rgb(255,0,0, 0.6)
                     Note over User, Frontend: Break if permission is denied
@@ -101,7 +101,7 @@ The different components have been chosen with specific needs in mind:
             rect rgb(111, 160, 200, 0.4)
                 note right of User: Validate Signature
                 Forwarder->>Forwarder: deconstruct the original sender out of the signature
-                Forwarder->>Forwarder: validate that the original sender is equal to deconstructed sender and  <br/>the nonce of the messag is equal to the nonce saved in the SC for the sender
+                Forwarder->>Forwarder: validate that the original sender is equal to deconstructed sender and  <br/>the nonce of the message is equal to the nonce saved in the SC for the sender
                 rect rgb(255,0,0, 0.6)
                     Note over Forwarder, Recipient: Break if validation fails
                     Forwarder->>Backend: send error
@@ -116,7 +116,6 @@ The different components have been chosen with specific needs in mind:
                 Recipient->>Recipient: Persist message with the address of the original sender
                 Backend->>Frontend: Send Transaction Hash
                 Frontend->>User: Show Etherscan link
-                Frontend->>Backend: Ask every 20 seconds for the transaction Receipt of the transaction hash
                 Backend->>Node: Ask for transaction Receipt
                 Node->>Backend: Once mined send transaction receipt
                 Recipient-->Recipient: Emit event
